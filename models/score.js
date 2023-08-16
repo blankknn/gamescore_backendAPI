@@ -1,12 +1,11 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db.config');
 
-const Score = sequalize.define(
+const Score = sequelize.define(
   "Score", {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     user_id: {
       type: DataTypes.INTEGER,
@@ -18,11 +17,6 @@ const Score = sequalize.define(
     score: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
-    game: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: DataTypes.NOW
     }
   },
   {

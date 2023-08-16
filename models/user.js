@@ -61,12 +61,9 @@ const User = sequelize.define(
         key: 'id'
       }
     },
-    game_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'game',
-        key: 'id'
-      }
+    score: {
+      type: DataTypes.INTEGER, // or DataTypes.FLOAT if you want to store decimal values
+      allowNull: false // or true, depending on whether the score is mandatory for each entry
     }
   },
   {

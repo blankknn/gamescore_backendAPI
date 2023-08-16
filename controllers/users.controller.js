@@ -49,14 +49,16 @@ async function updateUser(req, res) {
   try {
     // User can only update their own profile
     // TESTING
-
+console.log("checking req", req)
     const user = await User.findByPk(parseInt(req.params.userId))
     console.log("Update User", user)
-
+console.log("apolo", user.id)
     if(user.id !== req.user.id) {
      throw "Cannot update other people's profile"
     } else {
+      console.log("checkpoint 1", req.body.password)
       const hashedPassword = hashPassword(req.body.password);
+      console.log("checkpoint 1.5", hashedPassword)
       const updatedUser = await User.update(
         {
           ...req.body,
@@ -68,7 +70,7 @@ async function updateUser(req, res) {
           },
         }
       );
-  
+  console.log("checkpoint 2", updatedUser)
       // Send updated updatedUser as response
       res.json(updatedUser);
     }

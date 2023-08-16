@@ -90,7 +90,7 @@ async function login(req, res) {
       }
     );
 
-    res.status(200).json({ accessToken: token });
+    res.status(200).json({ accessToken: token, user: user });
   } catch (error) {
     res.status(500).json({ error: error });
   }

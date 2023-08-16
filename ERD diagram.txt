@@ -1,5 +1,5 @@
 +-------------+       +---------+       +-------------+       +----------------+
-|   Users     |       | Scores  |       | Leaderboard |       | GameAnalytics  |
+|   Users     |       | Scores  |       | Leaderboard |       |Guide  |
 +-------------+       +---------+       +-------------+       +----------------+
 | - id (PK)   |1   * | - id (PK)|1   * | - id (PK)   |1   * | - id (PK)      |
 | - username  |------<| - userId|------<| - userId    |------<| - userId       |

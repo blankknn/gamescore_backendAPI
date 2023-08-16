@@ -45,3 +45,38 @@ CREATE TABLE leaderboard (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE regions (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE teams (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    region_id INT NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY (region_id) REFERENCES regions(id)
+);
+
+ALTER TABLE users 
+ADD COLUMN region_id INT, 
+ADD COLUMN team_id INT, 
+ADD FOREIGN KEY (region_id) REFERENCES regions(id), 
+ADD FOREIGN KEY (team_id) REFERENCES teams(id);
+
+ALTER TABLE users 
+ADD COLUMN game_id INT;
+
+CREATE TABLE games (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+ALTER TABLE users 
+ADD FOREIGN KEY (game_id) REFERENCES games(id);
