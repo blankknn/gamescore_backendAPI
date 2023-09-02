@@ -9,6 +9,7 @@ const { verifyToken, checkRole } = require("../middlewares/auth.middleware.js")
 
 router.get('/', usersController.getAllUsers)
 router.get('/:userId', usersController.getUserById)
+router.post('/verify/:userId', usersController.verifyByUserId)
 
 router.post(
     '/',

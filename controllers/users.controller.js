@@ -1,3 +1,4 @@
+const { log } = require("console");
 const User = require("../models/user.js");
 const { hashPassword } = require("../utils/bcrypt.util.js");
 
@@ -24,14 +25,12 @@ async function getUserById(req, res) {
   }
 }
 
-
-// TO TEST: authorization on creating new user 
+// TO TEST: authorization on creating new user
 async function createUser(req, res) {
   try {
-
-    if (req.user.role !== "admin"){
-      throw ' Unauthorized'
-    } 
+    if (req.user.role !== "admin") {
+      throw " Unauthorized";
+    }
 
     const hashedPassword = hashPassword(req.body.password);
 
@@ -49,16 +48,16 @@ async function updateUser(req, res) {
   try {
     // User can only update their own profile
     // TESTING
-console.log("checking req", req)
-    const user = await User.findByPk(parseInt(req.params.userId))
-    console.log("Update User", user)
-console.log("apolo", user.id)
-    if(user.id !== req.user.id) {
-     throw "Cannot update other people's profile"
+    console.log("checking req", req);
+    const user = await User.findByPk(parseInt(req.params.userId));
+    console.log("Update User", user);
+    console.log("apolo", user.id);
+    if (user.id !== req.user.id) {
+      throw "Cannot update other people's profile";
     } else {
-      console.log("checkpoint 1", req.body.password)
+      console.log("checkpoint 1", req.body.password);
       const hashedPassword = hashPassword(req.body.password);
-      console.log("checkpoint 1.5", hashedPassword)
+      console.log("checkpoint 1.5", hashedPassword);
       const updatedUser = await User.update(
         {
           ...req.body,
@@ -70,11 +69,10 @@ console.log("apolo", user.id)
           },
         }
       );
-  console.log("checkpoint 2", updatedUser)
+      console.log("checkpoint 2", updatedUser);
       // Send updated updatedUser as response
       res.json(updatedUser);
     }
-
   } catch (error) {
     res.status(500).json({ error: error });
   }
@@ -85,13 +83,13 @@ async function deleteUser(req, res) {
     // User can only delete their own profile
     // TESTING
 
-    const user = await User.findByPk(parseInt(req.params.userId))
-    console.log("Delete User: ", user)
-    console.log(`req role: `, req.user.role );
-    console.log(`params role: `, user.role );
+    const user = await User.findByPk(parseInt(req.params.userId));
+    console.log("Delete User: ", user);
+    console.log(`req role: `, req.user.role);
+    console.log(`params role: `, user.role);
 
-    if(req.user.role !== 'admin' && user.id !== req.user.id) {
-      throw "Cannot delete other people's profile"
+    if (req.user.role !== "admin" && user.id !== req.user.id) {
+      throw "Cannot delete other people's profile";
     } else {
       const user = await User.destroy({
         where: {
@@ -101,7 +99,29 @@ async function deleteUser(req, res) {
       // Send deleted user as response
       res.json(user);
     }
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+}
+async function verifyByUserId(req, res) {
+  const user = await User.findByPk(parseInt(req.params.userId));
+  
+    // if (req.user.role != "admin") {
+    //   throw "Unatheorized";
+    // } else {
+      console.log(req.body+ "hellow");
+      const updatedUser = await User.update(
+        req.body,
+        {
+          where: {
+            id: parseInt(req.params.userId),
+          },
+        }
+      );
 
+      res.json(updatedUser);
+    // }
+    try {
   } catch (error) {
     res.status(500).json({ error: error });
   }
@@ -113,4 +133,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  verifyByUserId,
 };
